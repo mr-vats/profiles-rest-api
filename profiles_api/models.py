@@ -43,8 +43,8 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
 
     objects = UserProfileManager()
 
-    USERNAME_FIELDS ='email' #overriding the field
-    REQUIRED_FIELDS =['name']
+    USERNAME_FIELD ='email' #overriding the field
+    REQUIRED_FIELD =['name']
 
 
     def get_full_name(self):
