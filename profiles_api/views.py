@@ -1,5 +1,5 @@
-from reset_framework.views import APIView
-from reset_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 class HelloApiView(APIView):
     """Test API View"""
@@ -12,4 +12,3 @@ class HelloApiView(APIView):
         'IS mapped manually to URLs',
         ]
         return Response({'message':'Hello Chutad', 'an_apiview':an_apiview})
-        
