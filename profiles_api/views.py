@@ -2,14 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status #list of http status codes we can use while returning response
 
-from profiles_api import Serializes
+from profiles_api import serializers
 
 
 
 class HelloApiView(APIView):
     """Test API View"""
 
-    serializer_class =Serializer.HelloSerializer
+    serializer_class =serializers.HelloSerializer
     def get(self,request,format=None):
         """Return a list of APIView features"""
         an_apiview=[
@@ -37,3 +37,23 @@ class HelloApiView(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
             )
+
+
+
+    #To Update the object
+    def put(self,request,pk=None):
+        """Handle Update an Object"""
+        """ pk stands for id of the object to be updated"""
+        """ Replacing entire object"""
+        return Response({'method':'PUT'})
+
+
+    def patch(self,request,pk=None):
+        """HAndle a Partial Update of an Object"""
+        """Changes only passed values"""
+        return Response({'method':'PATCH'})
+
+    def delete(Self,request,pk=None):
+        """Handle deletion of object"""
+
+        return Response({'method':'DELETE'})
