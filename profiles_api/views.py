@@ -4,6 +4,9 @@ from rest_framework import status #list of http status codes we can use while re
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication #USer authtoken: generate random token string, add in request
 from rest_framework import filters
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
+#ObtainAuthToken-> view that comes with DRF that generates auth token
 from django.contrib.auth.models import User
 
 
@@ -127,3 +130,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     #this will tell which fields we have to search with search filter
     search_fields =('name','email',)
+
+
+class UserLoginApiView(ObtainAuthToken):
+    """ Handles creating user authentication tokens"""
+    #this ObtainAuthToken ,doesnt enable itself by default
+    #we ovveride this class to make it browsable
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
