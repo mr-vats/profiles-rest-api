@@ -12,7 +12,7 @@ class UpdateOwnProfile(permissions.BasePermission):
     def has_object_permission(self,request,view,obj):
         """Check user is trying to edit their own profile"""
         #safe method :HTTP GET
-        if request.method in permisions.SAFE_METHOD:
+        if request.method in permissions.SAFE_METHODS:
             return True
         else:
             return obj.id == request.user.id

@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status #list of http status codes we can use while returning response
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication #USer authtoken: generate random token string, add in request
+from rest_framework import filters
 from django.contrib.auth.models import User
 
 
@@ -122,4 +123,4 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     #authentication_classes: tell how user will authenticate
     authentication_classes=(TokenAuthentication,)
     #permission classes-> How user will get permission to do certain things
-    permision_classes=(permissions.UpdateOwnProfile,)
+    permission_classes=(permissions.UpdateOwnProfile,)
