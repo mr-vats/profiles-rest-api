@@ -2,11 +2,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status #list of http status codes we can use while returning response
 from rest_framework import viewsets
-
+from rest_framework.authentication import TokenAuthentication #USer authtoken: generate random token string, add in request
 from django.contrib.auth.models import User
 
 
 from profiles_api import serializers
+from profiles_api import models
+from profiles_api import permissions
 
 
 
@@ -106,3 +108,18 @@ class HelloViewSet(viewsets.ViewSet):
     def destroy(self,request,pk=None):
         """Handle Removing an object"""
         return Response({'http_method':'DELETE'})
+
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Handle Creating and updating profiles"""
+    #connect serializer class and provide query set to ModelViewSet
+    serializer_class=serializers.UserProfileSerializer
+    #list if all UserProfile
+    queryset=models.UserProfile.objects.all()
+    #Register profile viewset with URL router
+    #we want authentication_classes to be Generated as tuple
+    #authentication_classes: tell how user will authenticate
+    authentication_classes=(TokenAuthentication,)
+    #permission classes-> How user will get permission to do certain things
+    permision_classes=(permissions.UpdateOwnProfile,)
