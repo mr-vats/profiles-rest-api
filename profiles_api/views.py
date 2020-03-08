@@ -124,3 +124,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     authentication_classes=(TokenAuthentication,)
     #permission classes-> How user will get permission to do certain things
     permission_classes=(permissions.UpdateOwnProfile,)
+    filter_backends = (filters.SearchFilter,)
+    #this will tell which fields we have to search with search filter
+    search_fields =('name','email',)
