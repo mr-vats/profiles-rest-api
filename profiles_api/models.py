@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
-
+from django.conf import settings
+#This is used to retreieve from settings.py file in project settings of our project
 
 class UserProfileManager(BaseUserManager):
     """Manager for users profile"""
@@ -56,3 +57,20 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     def __str__(self):
         """Return String represenation of user"""
         return self.email
+
+
+class ProfileFeedItem(models.Model):
+    """Profile Status update"""
+    #retrieve the other models details from settings.py
+    #Reason : It is better than hard coding
+    #on_delete: To let Django know what to do when primary key is removed
+    user_profile=models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+        )
+    status_text = models.CharField(max_length=255)
+    created_on =models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        """Return model as a String"""
+        return self.status_text

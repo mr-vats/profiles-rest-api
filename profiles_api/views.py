@@ -6,7 +6,10 @@ from rest_framework.authentication import TokenAuthentication #USer authtoken: g
 from rest_framework import filters
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
+from rest_framework.permissions import IsAuthenticated
 #ObtainAuthToken-> view that comes with DRF that generates auth token
+
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.contrib.auth.models import User
 
 
@@ -137,3 +140,21 @@ class UserLoginApiView(ObtainAuthToken):
     #this ObtainAuthToken ,doesnt enable itself by default
     #we ovveride this class to make it browsable
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    """Handles creating , reading and updating profile feed items"""
+    serializer_class=serializers.ProfileFeedItemSerializer
+    authentication_classes=(TokenAuthentication,)
+    queryset=models.ProfileFeedItem.objects.all()
+    permission_classes=(permissions.UpdateOwnStatus,IsAuthenticated)
+    #Perform_create for making user_profile as read only
+
+    def perform_create(self,serializer):
+        """Sets the user profile to the logged in user"""
+        #We are ovveriding djangos perform_create method,
+        #Current Behaviour: When a request comes to our ViewSet,
+        #it is passed in serializer_class  that is validated and later on serializer.save method is called by default
+        #customized logic: This will be called everytime we do http post to our ViewSet
+
+        serializer.save(user_profile=self.request.user)

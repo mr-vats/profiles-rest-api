@@ -22,7 +22,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
          }
          }
 
-    #Once a new object is created with serializer,it will validate the object and then call create function to parse validated data
+    #Once a new object is created with serializer,it will validate the object and then call create function
+    #to parse validated data
     def create(self,validated_data):
         """Create and return a new User"""
         user=models.UserProfile.objects.create_user(
@@ -40,3 +41,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
             instance.set_password(password)
 
         return super().update(instance,validated_data)
+
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+    """Serializes ProfileFeedItem"""
+
+    class Meta:
+        #By default Django adds primary key ID to all the models that we create
+        #This sets serializer to ProfileFeedItem
+        model=models.ProfileFeedItem
+        fields=('id','user_profile','status_text','created_on')
+        extra_kwargs={'user_profile':{'read_only':True}}
